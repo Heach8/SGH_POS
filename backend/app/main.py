@@ -151,3 +151,14 @@ def targets_summary(month: str, user=Depends(require_role("admin","manager","sal
 
 from app import auth
 app.include_router(auth.router)
+
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # güvenlik için ileride domainini kısıtlayabiliriz
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
