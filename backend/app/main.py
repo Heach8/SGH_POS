@@ -148,3 +148,6 @@ def targets_summary(month: str, user=Depends(require_role("admin","manager","sal
             "ach_rate": round((actual / float(t.target_amount) * 100),2) if float(t.target_amount)>0 else 0.0
         })
     return {"month": month, "items": items}
+
+from app import auth
+app.include_router(auth.router)
