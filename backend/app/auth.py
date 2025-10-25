@@ -45,3 +45,23 @@ def require_role(*roles):
             raise HTTPException(403, "Forbidden")
         return user
     return checker
+
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
+
+router = APIRouter(prefix="/auth")
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+@router.post("/login")
+def login(data: LoginRequest):
+    if data.email == "sales@retail.com" and data.password == "Sales123!":
+        return {"access_token": "demo_token_123", "role": "salesperson"}
+    elif data.email == "manager@retail.com" and data.password == "Manager123!":
+        return {"access_token": "demo_token_456", "role": "manager"}
+    elif data.email == "admin@retail.com" and data.password == "Admin123!":
+        return {"access_token": "demo_token_789", "role": "admin"}
+    else:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
